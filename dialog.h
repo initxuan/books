@@ -2,6 +2,7 @@
 #define DIALOG_H
 
 #include <QDialog>
+#include <QSystemTrayIcon>
 
 namespace Ui {
 class Dialog;
@@ -18,10 +19,17 @@ public:
 private slots:
     void on_pushButton_clicked();
 
+    void on_pushButton_2_clicked();
+
+    void setBothIcons(int);
+
 private:
     Ui::Dialog *ui;
 
     bool isLogin;
+
+    QIcon iconCorrect, iconError;
+    QSystemTrayIcon *trayIcon;
 };
 
 #endif // DIALOG_H
