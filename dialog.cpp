@@ -20,14 +20,22 @@ Dialog::Dialog(QWidget *parent) :
     setBothIcons(0);
     trayIcon->setVisible(true);
 
+    // 显示托盘图标功能菜单
     setupTrayMenu();
 
+    // 实现托盘图标左击功能
     connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(myIconActivated(QSystemTrayIcon::ActivationReason)));
 }
 
 Dialog::~Dialog()
 {
     delete ui;
+    delete trayIcon;
+    delete userMsg;
+    delete deviceMsg;
+    delete logoutAction;
+    delete quitAction;
+    delete trayIconMenu;
 }
 
 void Dialog::on_pushButton_clicked()
