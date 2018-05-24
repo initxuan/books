@@ -1,2 +1,2 @@
 # books
-A project for learning QT
+A project for learning Qt
