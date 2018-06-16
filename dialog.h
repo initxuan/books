@@ -13,6 +13,9 @@
 #include <QAction>
 #include <QMenu>
 
+// 引用"程序升级包网络下载"的头文件
+#include "updatebynetwork.h"
+
 namespace Ui {
 class Dialog;
 }
@@ -61,6 +64,8 @@ private:
     // 右击托盘显示的功能菜单
     QAction *userMsg, *deviceMsg, *logoutAction, *quitAction;
     QMenu *trayIconMenu;
+
+    UpdateByNetwork *pUpdate;   // 处理升级包网络下载的handler
 };
 
 #endif // DIALOG_H

@@ -8,6 +8,28 @@ Dialog::Dialog(QWidget *parent) :
     ui(new Ui::Dialog)
 {
     ui->setupUi(this);
+    //ui->lineEdit->setText("abc");
+    ui->progressBar->setValue(0);
+    isLogin = true;
+
+    //2. 读入升级程序
+    /////////////////////
+    pUpdate = new UpdateByNetwork();
+    pUpdate->setBaseAddress("http://localhost:8080/download/");
+    pUpdate->setDownloadFileName("setup.exe");
+
+
+    pUpdate->startDownload();
+//    QMessageBox::information(this, "下载", "正在下载。");  //法1：可以挂起当前 dialog 线程，可以实现下载线程完成下载。
+//    qDebug() <<"dialog中";
+    while (!pUpdate->bDownloaded) {      //法2：可以等待下载线程完成下载。
+        QCoreApplication::processEvents();
+        //QThread::currentThread()->msleep(300);
+        //QThread::currentThread()->yieldCurrentThread();    //不放弃当前线程，让它执行myFinished
+     }
+
+     if (pUpdate->bDownloaded)
+         qDebug() << " 已下载";
 
     // 1.托盘图标
     // 1.1 初始化图标
@@ -57,7 +79,7 @@ void Dialog::on_pushButton_clicked()
 
 void Dialog::on_pushButton_2_clicked()
 {
-
+    // 升级
 }
 
 void Dialog::setBothIcons(int index)
