@@ -23,3 +23,7 @@ FORMS    += dialog.ui
 
 RESOURCES += \
     resource.qrc
+
+DISTFILES += \
+    ini/config.ini \
+    ini/updateversion.ini
