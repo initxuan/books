@@ -16,6 +16,11 @@ void UpdateByNetwork::setBaseAddress(QString s)         // 地址要有/结尾
     baseAddress = s;
 }
 
+void UpdateByNetwork::setlocalUpdateDir(QString d)      // 设置升级文件的下载目录
+{
+    localUpdateDir = d;
+}
+
 void UpdateByNetwork::setDownloadFileName(QString f)    //纯文件名
 {
     downloadFileName = f;
@@ -28,13 +33,21 @@ void UpdateByNetwork::startDownload()
     QUrl url = QUrl(baseAddress + downloadFileName);
     // qDebug() << url.toString();
 
-    QString strAppDir = QCoreApplication::applicationFilePath();
-    strAppDir = strAppDir.left(strAppDir.lastIndexOf("/"));
-    QDir mydir(strAppDir);    // = QDir::current();
-    // qDebug() << mydir.absolutePath();
-    mydir.mkdir(LOCALUPDATEDIR);        // 将文件下载到指定目录
+    QDir mydir = QDir::current();
+//    qDebug() << mydir.absolutePath();
+    if(!mydir.exists(localUpdateDir))
+    {
+        mydir.mkdir(localUpdateDir);    // 将文件下载到exe目录/update/下
+//        qDebug() << localUpdateDir << "not exists. 需要创建";
+    }
 
-    pFile = new QFile(LOCALUPDATEDIR + "/" + downloadFileName);
+//    QString strAppDir = QCoreApplication::applicationFilePath();
+//    strAppDir = strAppDir.left(strAppDir.lastIndexOf("/"));
+//    QDir mydir(strAppDir);    // = QDir::current();
+//    // qDebug() << mydir.absolutePath();
+//    mydir.mkdir(LOCALUPDATEDIR);        // 将文件下载到指定目录
+
+    pFile = new QFile(localUpdateDir + "/" + downloadFileName);
     if(!pFile->open(QIODevice::WriteOnly | QIODevice::Truncate)){
          qDebug() << "本地文件无法创建，无法下载文件。";
          return;
@@ -60,7 +73,7 @@ void UpdateByNetwork::myFinished()
     pReply->deleteLater();
     pReply = nullptr;
     bDownloaded = true;
-    // qDebug() << "myFinished结束。";
+    qDebug() << "myFinished结束。";
     // QMessageBox::information(this, "完成", "本地下载完成")；
 }
 
